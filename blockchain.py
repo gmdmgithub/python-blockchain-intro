@@ -1,13 +1,17 @@
 # Initializing our (empty) blockchain list
 genesis_block = {
-        'previous_hash': '',
-        'index':0,
-        'transactions': []
-    }
-blockchain = []
-
-open_transactions = [genesis_block]
+    'previous_hash': '',
+    'index': 0,
+    'transactions': []
+}
+blockchain = [genesis_block]
+open_transactions = []
 owner = 'Greg'
+participants = {'Greg'}
+
+
+def hash_block(block):
+    return '-'.join([str(block[key]) for key in block])
 
 
 def get_last_blockchain_value():
@@ -35,21 +39,16 @@ def add_transaction(recipient, sender=owner, amount=1.0):
         'amount': amount
     }
     open_transactions.append(transaction)
+    participants.add(sender)
+    participants.add(recipient)
 
 
 def mine_block():
-    last_blck = blockchain[-1]
-    ##### ordinary approach
-    # hash_block = ''
-    # for key in last_blck:
-    #     value = last_blck[key]
-    #     hash_block = hash_block +str(value)
-    
-    #print(hash_block)
-    
+    last_block = blockchain[-1]
+    hashed_block = hash_block(last_block)
     block = {
-        'previous_hash': 'XYZ',
-        'index':len(blockchain),
+        'previous_hash': hashed_block,
+        'index': len(blockchain),
         'transactions': open_transactions
     }
     blockchain.append(block)
@@ -81,60 +80,47 @@ def print_blockchain_elements():
 
 def verify_chain():
     """ Verify the current blockchain and return True if it's valid, False otherwise."""
-    # block_index = 0
-    is_valid = True
-    for block_index in range(len(blockchain)):
-        if block_index == 0:
-            # If we're checking the first block, we should skip the iteration (since there's no previous block)
+    for (index, block) in enumerate(blockchain):
+        if index == 0:
             continue
-        # Check the previous block (the entire one) vs the first element of the current block
-        elif blockchain[block_index][0] == blockchain[block_index - 1]:
-            is_valid = True
-        else:
-            is_valid = False
-    #         break
-    # for block in blockchain:
-    #     if block_index == 0:
-    #         block_index += 1
-    #         continue
-    #     elif block[0] == blockchain[block_index - 1]:
-    #         is_valid = True
-    #     else:
-    #         is_valid = False
-    #         break
-    #     block_index += 1
-    return is_valid
+        if block['previous_hash'] != hash_block(blockchain[index - 1]):
+            return False
+    return True
 
 
 waiting_for_input = True
-
-#init a blockchain
-blockchain.append(genesis_block)
 
 # A while loop for the user input interface
 # It's a loop that exits once waiting_for_input becomes False or when break is called
 while waiting_for_input:
     print('Please choose')
     print('1: Add a new transaction value')
-    print('2: Main new block')
+    print('2: Mine a new block')
     print('3: Output the blockchain blocks')
+    print('4: Output participants')
     print('h: Manipulate the chain')
     print('q: Quit')
     user_choice = get_user_choice()
     if user_choice == '1':
         tx_data = get_transaction_value()
-        recipient, amount = tx_data #retuple into the variable
+        recipient, amount = tx_data
         # Add the transaction amount to the blockchain
         add_transaction(recipient, amount=amount)
-        print(f'open transactions: {open_transactions}')
+        print(open_transactions)
     elif user_choice == '2':
         mine_block()
     elif user_choice == '3':
         print_blockchain_elements()
+    elif user_choice == '4':
+        print(participants)
     elif user_choice == 'h':
         # Make sure that you don't try to "hack" the blockchain if it's empty
         if len(blockchain) >= 1:
-            blockchain[0] = [2]
+            blockchain[0] = {
+                'previous_hash': '',
+                'index': 0,
+                'transactions': [{'sender': 'Chris', 'recipient': 'Max', 'amount': 100.0}]
+            }
     elif user_choice == 'q':
         # This will lead to the loop to exist because it's running condition becomes False
         waiting_for_input = False
