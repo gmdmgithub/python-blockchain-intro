@@ -7,7 +7,7 @@ genesis_block = {
 blockchain = [genesis_block]
 open_transactions = []
 owner = 'Greg'
-participants = {'Greg'}
+participants = {'Greg'} # set - it could be like set(['Greg'])
 
 
 def hash_block(block):
