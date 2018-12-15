@@ -1,3 +1,4 @@
+import functools # importing funcions (map, reduce, filter)
 
 MINING_REWARD = 10
 
@@ -31,11 +32,17 @@ def get_balance(participant):
 
     tx_recipient = [[tx['amount'] for tx in block['transactions'] if tx['recipient']==participant] for block in blockchain]
 
-    amount_recieped = 0
-    for tx in tx_recipient:
-        if len(tx)>0:
-            amount_recieped += tx[0]
-    print(f'Amount get is: {amount_recieped}')
+    # amount_recieped = 0
+    # for tx in tx_recipient:
+    #     if len(tx)>0:
+    #         amount_recieped += tx[0]
+    
+    #ltes rewrite it with reduce - very nice: Guido van Rossum (Python creator) - removed reduce form 3.x python - in 99% for loops is more readebale
+    #amount_recieped = functools.reduce(lambda tx_sum, tx_amt: tx_sum +tx_amt[0] if len(tx_amt) > 0 else 0, tx_recipient, 0)
+    inline_func = lambda tx_sum, tx_amt: tx_sum +tx_amt[0] if len(tx_amt) > 0 else 0
+    amount_recieped = functools.reduce(inline_func, tx_recipient,0)
+
+    print(f'Amount get is: {amount_recieped:.2f}')
 
     return amount_recieped - amount_sent
 
@@ -82,7 +89,7 @@ def add_transaction(recipient, sender=owner, amount=1.0):
         open_transactions.append(transaction)
         participants.add(sender)
         participants.add(recipient)
-        retrun True
+        return True
 
     return False
     
@@ -203,7 +210,7 @@ while waiting_for_input:
         print('Invalid blockchain!')
         # Break out of the loop
         break
-    print(f"Balance for Greg = {get_balance('Greg')}")
+    print(f"Balance for Greg = {get_balance('Greg'):.2f}")
 else:
     print('User left!')
 

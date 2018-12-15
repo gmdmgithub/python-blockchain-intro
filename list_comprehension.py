@@ -38,3 +38,30 @@ print(f'Are the same? copy: {copy_person2[0]} original: {persons[0]}')
 
 # Task 5
 unpack_dict(persons)
+
+
+############## lamba and other #######################
+print('################### LAMBDA FUNC task1 ############################')
+#call inside function
+def inside_func(name):
+    return f'hi from inside function {name}'
+
+def call_inside_func(some_func):
+    print(some_func('Alex'))
+
+my_call = call_inside_func
+my_call(inside_func)
+
+print('################### LAMBDA FUNC task2 ############################')
+
+# call faunction with lambda expression
+my_call(lambda nick: f'I\'m in lambda {nick}')
+
+print('################### LAMBDA FUNC task3 ############################')
+#passing  ulimited number of arguments
+
+def call_inside_func2(some_func, *args):
+    for arg in args:
+        print(some_func(arg))
+
+call_inside_func2(lambda name: f'Hi my nane is {name}', 'Ana', 'John','Kriss')
