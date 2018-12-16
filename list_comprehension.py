@@ -65,3 +65,28 @@ def call_inside_func2(some_func, *args):
         print(some_func(arg))
 
 call_inside_func2(lambda name: f'Hi my nane is {name}', 'Ana', 'John','Kriss')
+
+float_value=20/3
+print(f'Test of format{float_value:^10.3f}')
+
+
+print('################### import FUNC task1 ############################')
+
+import random
+
+random.seed()
+
+print(random.random())
+print(random.randrange(1,10))
+print(random.uniform(1,10))
+
+print('################### import FUNC task2 ############################')
+
+from datetime import datetime
+ 
+year = random.randint(1950, 2000)
+month = random.randint(1, 12)
+day = random.randint(1, 28)
+birth_date = datetime(year, month, day)
+print(birth_date.isoformat(timespec='auto'))
+print(birth_date.strftime("%Y %m %d"))
