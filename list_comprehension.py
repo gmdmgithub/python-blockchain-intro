@@ -1,4 +1,5 @@
 from functools import wraps
+import random
 
 def convert(dict):
     """ Function converts dictionary and print one of its field list """
@@ -94,7 +95,7 @@ print(birth_date.isoformat(timespec='auto'))
 print(birth_date.strftime("%Y %m %d"))
 
 print('################### decorator!!!! - how it works ############################')
-#usually it works with iner functiuon!
+#usually it works with inner functiuon!
 
 def mapper(func):
     
@@ -118,3 +119,22 @@ teams = ['manchester_united', 'bayern_munchen','ajax_amsterdam']
 
 print(camel_func(teams))
 print(camel_func.__doc__)
+
+print('################### decorator with arguments !!!! - how it works ############################')
+
+#decorator
+
+def power_func(power):
+
+    def mapper(fnc):
+        def iner():
+            return fnc()**power      
+        return iner
+    return mapper
+
+
+@power_func(2)
+def random_odd_choice():
+    return random.choice([1,3,5,7,9])
+
+print('random choice '+ str(random_odd_choice()))
