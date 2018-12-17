@@ -1,3 +1,5 @@
+from functools import wraps
+
 def convert(dict):
     """ Function converts dictionary and print one of its field list """
     names = [person['name'] for person in persons]
@@ -90,3 +92,29 @@ day = random.randint(1, 28)
 birth_date = datetime(year, month, day)
 print(birth_date.isoformat(timespec='auto'))
 print(birth_date.strftime("%Y %m %d"))
+
+print('################### decorator!!!! - how it works ############################')
+#usually it works with iner functiuon!
+
+def mapper(func):
+    
+    @wraps(func)  #wraps from functools replace the doc from original function
+    def inner_func(list_of_values):
+        return [func(value) for value in list_of_values]
+    
+    return inner_func
+
+@mapper
+def camel_func(str):
+    """ return camelised string from python way string """
+    return ''.join([st.capitalize() for st in str.split('_')])
+
+#camel_func = mapper(camel_func) #this is the same as mapper!
+
+
+# print('camel_func res: '+camel_func('test_the_camel_func'))
+
+teams = ['manchester_united', 'bayern_munchen','ajax_amsterdam']
+
+print(camel_func(teams))
+print(camel_func.__doc__)
