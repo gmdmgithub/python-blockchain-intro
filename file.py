@@ -21,3 +21,10 @@ while line:
     line = my_file.readline()
 
 my_file.close()
+
+with open('test2.txt', mode='r+') as f:
+    f.write('Hi my name is John\n')
+    line = f.readline()
+    while line:
+        print(line)
+        line = f.readline()

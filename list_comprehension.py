@@ -111,8 +111,6 @@ def camel_func(str):
     return ''.join([st.capitalize() for st in str.split('_')])
 
 #camel_func = mapper(camel_func) #this is the same as mapper!
-
-
 # print('camel_func res: '+camel_func('test_the_camel_func'))
 
 teams = ['manchester_united', 'bayern_munchen','ajax_amsterdam']
@@ -124,8 +122,7 @@ print('################### decorator with arguments !!!! - how it works ########
 
 #decorator
 
-def power_func(power):
-
+def power_func(power=2):
     def mapper(fnc):
         def iner():
             return fnc()**power      
@@ -133,8 +130,13 @@ def power_func(power):
     return mapper
 
 
-@power_func(2)
+@power_func()
 def random_odd_choice():
     return random.choice([1,3,5,7,9])
 
-print('random choice '+ str(random_odd_choice()))
+@power_func(3)
+def random_even_choice():
+    return random.choice([2,4,6,8,10])
+
+print('random choice from odd num '+ str(random_odd_choice()))
+print('random choice from even num '+ str(random_even_choice()))

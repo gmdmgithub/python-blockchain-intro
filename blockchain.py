@@ -2,6 +2,7 @@ from functools import reduce
 from collections import OrderedDict
 # Import two functions from our hash_util.py file. Omit the ".py" in the import
 from hash_util import hash_string_256, hash_block
+import json
 
 # The reward we give to miners (for creating a new block)
 MINING_REWARD = 10
@@ -22,6 +23,23 @@ owner = 'Greg'
 # Registered participants: Ourself + other people sending/ receiving coins
 participants = {'Greg'}
 
+def save_data():
+    """ Save data of blockchain and open transactions"""
+    with open('blockchain.txt', mode='w') as bf:
+        bf.write(json.dumps(blockchain))
+        bf.write('\n')
+        bf.write(json.dumps(open_transactions))
+
+def load_data():
+    """ Load data of blockchain and open transactions"""
+    with open('blockchain.txt', mode='r') as bf:
+        content = bf.readlines()
+        global blockchain
+        global open_transactions
+        blockchain = json.loads(content[0][:-1])  #exlude \n
+        open_transactions = json.loads(content[1])
+
+load_data()
 
 def valid_proof(transactions, last_hash, proof):
     """Validate a proof of work number and see if it solves the puzzle algorithm (two leading 0s)
@@ -129,6 +147,7 @@ def add_transaction(recipient, sender=owner, amount=1.0):
         open_transactions.append(transaction)
         participants.add(sender)
         participants.add(recipient)
+        save_data()
         return True
     return False
 
@@ -230,6 +249,7 @@ while waiting_for_input:
     elif user_choice == '2':
         if mine_block():
             open_transactions = []
+            save_data()
     elif user_choice == '3':
         print_blockchain_elements()
     elif user_choice == '4':
