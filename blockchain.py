@@ -25,14 +25,14 @@ participants = {'Greg'}
 
 def save_data():
     """ Save data of blockchain and open transactions"""
-    with open('blockchain.txt', mode='w') as bf:
+    with open('blockchain.txt', mode='w', encoding='utf8') as bf:
         bf.write(json.dumps(blockchain))
         bf.write('\n')
         bf.write(json.dumps(open_transactions))
 
 def load_data():
     """ Load data of blockchain and open transactions"""
-    with open('blockchain.txt', mode='r') as bf:
+    with open('blockchain.txt', mode='r', encoding='utf8') as bf:
         content = bf.readlines()
         global blockchain
         global open_transactions
@@ -265,7 +265,7 @@ while waiting_for_input:
             blockchain[0] = {
                 'previous_hash': '',
                 'index': 0,
-                'transactions': [{'sender': 'Chris', 'recipient': 'Max', 'amount': 100.0}]
+                'transactions': [{'sender': 'Chris', 'recipient': 'Greg', 'amount': 100.0}]
             }
     elif user_choice == 'q':
         # This will lead to the loop to exist because it's running condition becomes False
@@ -277,7 +277,7 @@ while waiting_for_input:
         print('Invalid blockchain!')
         # Break out of the loop
         break
-    print('Balance of {}: {:6.2f}'.format('Max', get_balance('Max')))
+    print('Balance of {}: {:6.2f}'.format('Greg', get_balance('Greg')))
 else:
     print('User left!')
 

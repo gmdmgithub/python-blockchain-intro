@@ -1,5 +1,6 @@
 from functools import wraps
 import random
+import json
 
 def convert(dict):
     """ Function converts dictionary and print one of its field list """
@@ -140,3 +141,50 @@ def random_even_choice():
 
 print('random choice from odd num '+ str(random_odd_choice()))
 print('random choice from even num '+ str(random_even_choice()))
+
+print('################### file opperations Task ############################')
+
+def get_user_input(first_loop):
+    print('Enetr some data')
+    print('"q" to quit')
+    if(not first_loop):
+        print('"p" to print stored data')
+    value = input()
+    return value
+
+def file_task(set_to_list):
+    wait_for_user = True
+    with open('taks_f.txt',mode='w+', encoding='utf8') as f:
+        pos_before_data = f.tell()
+        stored_list = []
+        print(pos_before_data)
+        first_loop = True
+        while(wait_for_user):
+            value = get_user_input(first_loop)
+            if(value != 'q' and value != 'p'):
+                # f.write(value+'\n') if(set_to_list) else stored_list.append(value)
+                f.write(json.dumps(value)+'\n') if(set_to_list) else stored_list.append(value)
+            elif(value == 'p' and first_loop != True):
+                if(not set_to_list):
+                    f.seek(pos_before_data)
+                    line = f.readline()
+                    line = json.loads(line)
+                    while(line):
+                        print(line[:-1]) #remove last \n character
+                        line = f.readline()
+                        if(line):
+                            line = json.loads(line)
+                else:
+                    for data in stored_list:
+                        print(data)
+            else:
+                wait_for_user = False
+            first_loop = False
+        if(stored_list):
+            for data in set_to_list:
+                f.write(json.dumps(data)+'\n')
+
+# file_task(False)
+file_task(True)
+
+
