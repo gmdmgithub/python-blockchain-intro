@@ -21,5 +21,6 @@ class Food:
     def describe(self):
         return f'My name: {self.name} and I am a kind of {self.kind}'
 
-# my_food = Food('Roll','Bread')
-# print(my_food.describe())
+if __name__ == '__main__':
+    my_food = Food('Roll','Bread')
+    print(my_food.describe())

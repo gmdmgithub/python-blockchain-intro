@@ -6,6 +6,6 @@ class Fruit(Food):
     def clean(self):
         print(f'I am cleaning my name is {self.name} of {self.kind}')
 
-
-apple = Fruit('apple')
-apple.clean()
+if __name__ == '__main__':
+    apple = Fruit('apple')
+    apple.clean()

@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from blockchain import Blockchain
-from verification import Verification
+from util.verification import Verification
 
 class Node:
     """The node which runs the local blockchain instance.
@@ -12,7 +12,7 @@ class Node:
     """
     def __init__(self):
         # self.id = str(uuid4())
-        self.id = 'MAX'
+        self.id = 'Greg'
         self.blockchain = Blockchain(self.id)
 
     def get_transaction_value(self):
@@ -84,5 +84,6 @@ class Node:
 
         print('Done!')
 
-node = Node()
-node.listen_for_input()
+if __name__ == '__main__':
+    node = Node()
+    node.listen_for_input()
